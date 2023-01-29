@@ -44,7 +44,13 @@ async function run() {
             const query ={}
             const cursor = await billingList.find(query);
             const billings = await cursor.toArray();
+            const count = billingList.estimatedDocumentCount();
             res.send(billings);
+        }); 
+        app.post('/add-billing', async (req, res) => {
+            const body = req.body;
+            const result = billingList.insertOne(body);
+            res.send(result);
         }); 
     }
     finally {
