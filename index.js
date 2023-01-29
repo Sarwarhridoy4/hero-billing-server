@@ -20,6 +20,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const userCollections = client.db("hero-billing").collection("userCollections");
+        const billingList = client.db("hero-billing").collection("billingList");
         
         //add consumers while registering
         app.put('/registration', async (req, res) => {
@@ -39,6 +40,12 @@ async function run() {
             const users = await cursor.toArray();
             res.send(users);
         }); 
+        app.get('/billing-list', async (req, res) => {
+            const query ={}
+            const cursor = await billingList.find(query);
+            const billings = await cursor.toArray();
+            res.send(billings);
+        }); 
     }
     finally {
         
@@ -50,7 +57,7 @@ run().catch(err => console.log(err))
 
 
 app.get('/', async (req, res) => {
-    res.send('B-Commerce server is running');
+    res.send('Hero-BillingHero-Billing server is running');
 })
 
 app.listen(port, () => console.log(`Hero-Billing server running on ${port}`))
