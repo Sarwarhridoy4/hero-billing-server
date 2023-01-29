@@ -14,15 +14,15 @@ app.use(express.json());
 
 
 const uri = process.env.uri
-console.log(uri);
+// console.log(uri);
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
     try {
-        const UserCollection = client.db("hero-billing").collection("userCollections");
+        const userCollections = client.db("hero-billing").collection("userCollections");
         
         //add consumers while registering
-        app.put('/user', async (req, res) => {
+        app.put('registration', async (req, res) => {
             const user = req.body
             const email = user.email
             const filter = { email: email }
@@ -30,7 +30,7 @@ async function run() {
             const updateDoc = {
                 $set: user,
             }
-            const result = await UserCollection.updateOne(filter, updateDoc, options);
+            const result = await userCollections.updateOne(filter, updateDoc, options);
             res.send(result);
         }); 
     }
