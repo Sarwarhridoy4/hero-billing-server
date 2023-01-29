@@ -22,7 +22,7 @@ async function run() {
         const userCollections = client.db("hero-billing").collection("userCollections");
         
         //add consumers while registering
-        app.put('registration', async (req, res) => {
+        app.put('/registration', async (req, res) => {
             const user = req.body
             const email = user.email
             const filter = { email: email }
@@ -32,6 +32,12 @@ async function run() {
             }
             const result = await userCollections.updateOne(filter, updateDoc, options);
             res.send(result);
+        }); 
+        app.get('/login', async (req, res) => {
+            const query ={}
+            const cursor = await userCollections.find(query);
+            const users = await cursor.toArray();
+            res.send(users);
         }); 
     }
     finally {
