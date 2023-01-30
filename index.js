@@ -52,6 +52,27 @@ async function run() {
             const result = billingList.insertOne(body);
             res.send(result);
         }); 
+
+        app.get('/update-billing/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) };
+            // console.log(query);
+            const result = await billingList.findOne(query);
+            res.send(result);
+        });
+        app.put('/update-billing/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedbill = req.body;
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: updatedbill,
+            }
+            const result = await billingList.updateOne(filter, updateDoc, options)
+            res.send(result)
+        }); 
+
+        
     }
     finally {
         
