@@ -79,7 +79,6 @@ async function run() {
             const result = await billingList.deleteOne(query);
             res.send(result);
         });
-
         
     }
     finally {
